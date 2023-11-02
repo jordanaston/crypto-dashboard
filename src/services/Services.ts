@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CryptoData, CryptoInfoResponse } from "../types/Types";
 
 const apiKEY = import.meta.env.VITE_API_KEY;
 
@@ -11,23 +12,23 @@ const cmcApi = axios.create({
   },
 });
 
-export const getCryptoInfo = async (cryptoId: number) => {
+export const getCryptoListings = async (): Promise<CryptoData[]> => {
   try {
-    const response = await cmcApi.get(`/cryptocurrency/info?id=${cryptoId}`);
-    console.log(JSON.stringify(response, null, 3));
+    const response = await cmcApi.get(
+      "/cryptocurrency/listings/latest?limit=20"
+    );
     return response.data.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getCryptoListings = async () => {
+export const getCryptoInfo = async (
+  cryptoId: number
+): Promise<CryptoInfoResponse> => {
   try {
-    const response = await cmcApi.get(
-      "/cryptocurrency/listings/latest?limit=20"
-    );
-    console.log(JSON.stringify(response, null, 3));
-    return response.data.data;
+    const response = await cmcApi.get(`/cryptocurrency/info?id=${cryptoId}`);
+    return response.data;
   } catch (error) {
     throw error;
   }

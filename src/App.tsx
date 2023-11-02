@@ -3,24 +3,14 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TokenPage from "./pages/TokenPage";
 import MyTokensPage from "./pages/MyTokensPage";
-import { CryptoData } from "./types/CryptoDataTypes";
+import { useStore } from "./stores/Stores";
 
 const queryClient = new QueryClient();
 
 const App: React.FC = (): JSX.Element => {
-  const [selectedTokens, setSelectedTokens] = React.useState<CryptoData[]>([]);
-
-  const addToMyTokens = (token: CryptoData) => {
-    if (!selectedTokens.some((t) => t.id === token.id)) {
-      setSelectedTokens((prev) => [...prev, token]);
-    }
-  };
-
-  const handleRemoveToken = (tokenToRemove: CryptoData) => {
-    setSelectedTokens((prevTokens) =>
-      prevTokens.filter((token) => token.id !== tokenToRemove.id)
-    );
-  };
+  const selectedTokens = useStore((state) => state.selectedTokens);
+  const addToMyTokens = useStore((state) => state.addToMyTokens);
+  const handleRemoveToken = useStore((state) => state.handleRemoveToken);
 
   return (
     <QueryClientProvider client={queryClient}>

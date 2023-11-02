@@ -1,31 +1,31 @@
 import React from "react";
 import CryptoList from "../components/CryptoList";
 import { useNavigate } from "react-router-dom";
-import { CryptoData } from "../types/CryptoDataTypes";
+import { CryptoData } from "../types/Types";
 
 type Props = {
-  addToMyTokens: (token: CryptoData) => void;
+  addToMyTokens: (token: CryptoData, logoUrl?: string) => void;
 };
 
 const TokenPage: React.FC<Props> = ({ addToMyTokens }: Props) => {
   const navigate = useNavigate();
 
-  const handleTokenClick = (token: CryptoData) => {
-    addToMyTokens(token);
+  const handleTokenClick = (token: CryptoData, logoUrl?: string) => {
+    addToMyTokens(token, logoUrl);
   };
 
   return (
-    <div>
-      <div className="flex justify-center mt-10">
+    <div className="pb-20">
+      <div className="flex justify-center mt-8 mb-2 text-white">TOKEN PAGE</div>
+      <div className="flex justify-center">
         <button
           onClick={() => navigate("/mytokens")}
-          className="mr-4 px-4 py-2 border rounded"
+          className=" px-4 py-2 border rounded text-white my-4"
         >
           Go to My Tokens
         </button>
       </div>
 
-      <div className="flex justify-center my-8">TOKEN PAGE</div>
       <CryptoList onTokenClick={handleTokenClick} />
     </div>
   );
